@@ -65,13 +65,21 @@ Figure 6: Untrainable VGG16 model with additional trainable layers
 When it comes to fine tuning a model, there are many alterations that can be done. What we can change in a model are called hyperparameters and there are a few hyperparameters that we can alter. Examples of these are amount of layers, activation functions, batch size, epochs, and learning rate. In this section, we will be changing each of them to obtain the optimum result for this model. 
 
 To begin with, we will alter the number of epochs. Epochs are defined as the number of times we send the data back and forth through the model for learning. In our previous test (see §3 – Image pre-processing), we set the epoch level to 10 which gave us a good indication of whether changing the data was improving learning. Now that we have optimal data, we will see how the model learns after 50 epochs. From the graphs below (see figure 7), we can see a great improvement in both accuracy and loss of both training and validation up to 10 epochs. Thereafter, the learning is gradual with virtually no change. The following are results from each epoch:
+
 Epoch 10/50
+
 17/17 [==============================] - 57s 3s/step - loss: 0.0124 - acc: 0.9995 -   val_loss: 0.1160 - val_acc: 0.9604
+
 ...
+
 Epoch 49/50
+
 17/17 [==============================] - 55s 3s/step - loss: 3.1796e-05 - acc: 1.0000 - val_loss: 0.1556 - val_acc: 0.9615
+
 Epoch 50/50
+
 17/17 [==============================] - 55s 3s/step - loss: 0.1727 - acc: 0.9680 -   val_loss: 0.2443 - val_acc: 0.9297
+
 Unfortunately, the last epoch experienced a setback in progress but comparing the second to last with the tenth epoch, we see that in 40 epochs, the validation loss had increased and the accuracy reduced by only 0.03. 
 
 Figure 7: VGG16 after 50 epochs
@@ -92,10 +100,13 @@ Now, we will look at using different activation functions for the hidden layer. 
 Figure 12: VGG16. Tanh, sigmoid, and softmax activation functions (From left to right).
 
 Finally, we will look at combining the best of each test and see if the performance is improved in terms of accuracy, especially for the validation dataset. We will use a learning rate of 1e-5 with a greater amount of epochs (15) and tanh as the activation function. Looking at the last epoch and the evaluation of the model, we notice that there is not much of an improvement compared to earlier tests. They are as followed:
+
 Epoch 15/15
-17/17 [==============================] - 54s 3s/step - loss: 0.0545 - acc: 0.9939 – 
-val_loss: 0.1906 - val_acc: 0.9407
+
+17/17 [==============================] - 54s 3s/step - loss: 0.0545 - acc: 0.9939 – val_loss: 0.1906 - val_acc: 0.9407
+
 Evaluation:
+
 67/67 [==============================] - 35s 517ms/step - loss: 0.0455 - acc: 0.9986
 
 
@@ -122,10 +133,15 @@ The Conv2D layers will use 12 layers and relu as an activation function and the 
 <h3>§5.2 - Model fine tuning and performance</h3>
 
 As the model stands, with a learning rate of 1e-4, after 10 epochs our model evaluation is as so:
+
 	Epoch 10/10
+
 17/17 [==============================] - 5s 282ms/step - loss: 1.0845 - acc: 0.5195 - val_loss: 1.0644 - val_acc: 0.5549
+
 Evaluation:
+
 67/67 [==============================] - 2s 26ms/step - loss: 1.0466 - acc: 0.5577
+
 These results are far from ideal and far from what we were finding with the pretrained model in §4 – VGG16 Model. This is our first example of where pretrained models are both faster at learning and more efficient methods for quick learning. 
 
 To continue, it is evident that we will need to have a large amount of epochs in order to successfully train the custom model. But, to give our model the best chance of success, like before, we will stick with testing up to 10 epochs for various combinations of hyperparameter manipulation and continuing with higher epochs once we find the optimum design.
@@ -133,9 +149,13 @@ To continue, it is evident that we will need to have a large amount of epochs in
 Figure 15: Custom model evaluation per epoch (best)
 
 After changing each hyperparameter and plotting the result, the best graph (see figure 15 above) shows a trend for both train and validation for accuracy and loss. The optimum combination found also has the best accuracy and loss after 10 epochs as follows:
+
 Epoch 10/10
+
 17/17 [==============================] - 6s 332ms/step - loss: 0.7340 - acc: 0.7051 - val_loss: 0.7344 - val_acc: 0.6978
+
 67/67 [==============================] - 3s 39ms/step - loss: 0.6755 - acc: 0.7376
+
 As with before, the presence of a tanh activation functions improved the performance of the model. With greater depth, the additional Conv2D layers worsened the accuracy and raising and lowering the number of nodes in the dense layer also had a negative effect. We found that increasing the learning rate to 5e-4 had a smoother and better success rate. Finally, adding more filters to the conv2D layers added more noise to the graph (see code).
 
 With the optimum solution found, it is now time to increase the epoch level to 150. An issue we are likely to face when doing this is overfitting the model to the training data. As we can see from the graph below (figure 16), we do find this to be the case. Both the validation accuracy and loss trail off on their own course after 10 epochs.
